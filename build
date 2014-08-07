@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+#export GOPATH=${PWD}/Godeps/_workspace
+export GOBIN=${PWD}/bin
+export GOOS=linux
+export GOARCH=386
+export CGO_ENABLED=0
+
+if [ ! -h $GOPATH/src/github.com/deis/deisctl ]; then
+    mkdir -p $GOPATH/src/github.com/
+    ln -s ${PWD} $GOPATH/src/github.com/deis/deisctl
+fi
+
+eval $(go env)
+
+go install github.com/deis/deisctl
