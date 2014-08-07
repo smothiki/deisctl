@@ -2,40 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
-  "path/filepath"
-  "github.com/deis/deisctl/systemd"
-  "github.com/deis/deis-without-fleet/tests/utils"
+	"github.com/deis/deisctl/commands"
 	docopt "github.com/docopt/docopt-go"
+	"os"
 )
-
-const (
-  downloadDir     = "/home/core/deis/systemd/"
-  )
-
-
-func cmdInstall( ){
-  fmt.Println("starting systemd units")
-	files, _ := utils.ListFiles(downloadDir + "*.service")
-  conn, _ :=systemd.NewSystemdUnitManager()
-	conn.Enable(files)
-	for _, file := range files {
-		_, file = filepath.Split(file)
-		conn.Start(file)
-	}
-}
-
-func cmdUninstall(){
-  fmt.Println("starting systemd units")
-  files, _ := utils.ListFiles(downloadDir + "*.service")
-  conn, _ :=systemd.NewSystemdUnitManager()
-  for _, file := range files {
-    _, file = filepath.Split(file)
-    conn.Stop(file)
-  }
-  conn.Disable(files)
-}
-
 
 func main() {
 	usage := `Deis Control Utility
@@ -67,7 +37,7 @@ Options:
 		os.Exit(2)
 	}
 	command := args["<command>"]
-	//targets := args["<target>"].([]string)
+	targets := args["<target>"].([]string)
 	//setGlobalFlags(args)
 	// construct a client
 
@@ -75,18 +45,16 @@ Options:
 	switch command {
 	case "list":
 		fmt.Println("In progress")
-	case "scale":
-		fmt.Println("In progress")
 	case "start":
-		fmt.Println("In progress")
+		cmd.Start(targets, false)
 	case "stop":
-		fmt.Println("In progress")
+		cmd.Stop(targets, false)
 	case "status":
 		fmt.Println("In progress")
 	case "install":
-		cmdInstall()
+		cmd.Install(targets)
 	case "uninstall":
-		cmdUninstall()
+		cmd.Uninstall(targets)
 	default:
 		fmt.Printf(usage)
 		os.Exit(2)
