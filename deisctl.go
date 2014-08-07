@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/deis/deisctl/commands"
+	"github.com/deis/deisctl/updatectl"
 	docopt "github.com/docopt/docopt-go"
 	"os"
 )
@@ -55,6 +56,8 @@ Options:
 		cmd.Install(targets)
 	case "uninstall":
 		cmd.Uninstall(targets)
+	case "update":
+		updatectl.Update(os.Args)
 	default:
 		fmt.Printf(usage)
 		os.Exit(2)
