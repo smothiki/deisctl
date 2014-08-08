@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/deis/deis-without-fleet/tests/utils"
 	"github.com/deis/deisctl/systemd"
+	"github.com/deis/deisctl/utils"
 )
 
 const (
